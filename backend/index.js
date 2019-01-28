@@ -1,8 +1,11 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const server = require('http').createServer(app);
 const port = process.env.PORT || 3001;
 
+app.use(cors());
+app.options('*', cors());
 
 app.get('/play', function(req, res) {
   let arr = [];
