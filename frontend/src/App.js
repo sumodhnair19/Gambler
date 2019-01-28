@@ -24,7 +24,7 @@ class App extends Component {
   }
   }
   checkIfEqual = (arr) =>  arr.every( v => v === arr[0] )
-  
+
   async startPlay() {
       if(!this.state.isRoundFree) {
         this.setState({totalCoins : this.state.totalCoins-10});
@@ -33,11 +33,15 @@ class App extends Component {
           isRoundFree : !prevState.isRoundFree
       }));
       let data = await this.getDataFromServer();
-      this.setState({result : data});
-      if(this.checkIfEqual(data)) {
-      this.setState({hasWonText : `Big Win, you've earned 20 coins to your total`, totalCoins : this.state.totalCoins+20});
+      if(data) {
+        this.setState({result : data});
+        if(this.checkIfEqual(data)) {
+        this.setState({hasWonText : `Big Win, you've earned 20 coins to your total`, totalCoins : this.state.totalCoins+20});
+        } else {
+          this.setState({hasWonText: "No Win. Hence no coins added to your total"})
+        }
       } else {
-        this.setState({hasWonText: "No Win. Hence no coins added to your total"})
+        console.log("server error");
       }
 
   }
