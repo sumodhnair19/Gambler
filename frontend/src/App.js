@@ -2,7 +2,7 @@ import React, { Component,Fragment } from 'react';
 import Button from './images/button.png';
 import axios from 'axios';
 import './App.css';
-const webURL  = 'http://localhost:3000';
+const webURL  = 'http://localhost:3001';
 class App extends Component {
   constructor() {
     super();
@@ -26,14 +26,14 @@ class App extends Component {
   checkIfEqual = (arr) =>  arr.every( v => v === arr[0] )
 
   async startPlay() {
-      if(!this.state.isRoundFree) {
-        this.setState({totalCoins : this.state.totalCoins-10});
-      }
-      this.setState(prevState => ({
-          isRoundFree : !prevState.isRoundFree
-      }));
       let data = await this.getDataFromServer();
       if(data) {
+        if(!this.state.isRoundFree) {
+          this.setState({totalCoins : this.state.totalCoins-10});
+        }
+        this.setState(prevState => ({
+            isRoundFree : !prevState.isRoundFree
+        }));
         this.setState({result : data});
         if(this.checkIfEqual(data)) {
         this.setState({hasWonText : `Big Win, you've earned 20 coins to your total`, totalCoins : this.state.totalCoins+20});
